@@ -9,8 +9,20 @@ before_script:
   - you can keep adding lines and lines.
 
 stages:
-  - test
   - build
+  - test
+  - deploy
+
+Build My App:
+  stage: build
+  tags:
+   #- you_would_put_your_tag_in_here
+   #- node
+  before_script:
+    - yarn config set cache-folder .yarn
+    - yarn install
+  script:
+    - npm run build
 
 Test:
   stage: test
@@ -26,14 +38,7 @@ Test:
     # Runs the tests.
     - npm run test:karma-headless
 
-Build My App:
-  stage: build
-  tags:
-   #- you_would_put_your_tag_in_here
-   #- node
-  before_script:
-    - yarn config set cache-folder .yarn
-    - yarn install
+deploy-prod:
+  stage: deploy
   script:
-    - npm run build
-
+    - echo "This job deploys something from the $CI_COMMIT_BRANCH branch."
