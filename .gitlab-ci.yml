@@ -27,7 +27,7 @@ test-job1:
   script:
    # Installs Chrome
    - wget -q -O — https://dl-ssl.google.com/linux/linux_signing_key.pub
-   - echo ‘deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main’ | tee /etc/apt/sources.list.d/google-chrome.list
+   - echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | tee /etc/apt/sources.list.d/google-chrome.list
    - apt-get update
    - apt-get install google-chrome-stable -y
    # Runs the tests.
@@ -43,7 +43,7 @@ Deploy to Staging:
    # Sets the permission to 600 to prevent a problem with AWS
    # that it’s too unprotected.
    - chmod 600 ~/.ssh/id_rsa
-   - ‘[[ -f /.dockerenv ]] && echo -e “Host *\n\tStrictHostKeyChecking no\n\n” > ~/.ssh/config’
+   - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   script:
    - bash ./gitlab-deploy/.gitlab-deploy.staging.sh
   environment:
