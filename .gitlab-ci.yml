@@ -45,7 +45,7 @@ Deploy to Staging:
    - chmod 600 ~/.ssh/id_rsa
    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   script:
-   - bash ./gitlab-deploy/.gitlab-deploy.staging.sh
+   - bash /.gitlab-deploy/.gitlab-deploy.staging.sh
   environment:
    name: staging
    # Exposes a button that when clicked take you to the defined URL:
