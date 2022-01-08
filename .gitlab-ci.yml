@@ -1,0 +1,38 @@
+image: node:16.9.1
+cache:
+  paths:
+    - node_modules/
+
+before_script:
+  - apt-get update -qq && apt-get install
+  - another-command that will run after the one above
+  - you can keep adding lines and lines.
+
+stages:
+  - build
+  - test
+
+Build My App:
+  stage: build
+  tags:
+   #- you_would_put_your_tag_in_here
+   #- node
+  before_script:
+    - yarn config set cache-folder .yarn
+    - yarn install
+  script:
+    - npm run build
+
+Test:
+  stage: test
+  before_script:
+    - yarn config set cache-folder .yarn
+    - yarn install
+  script:
+  # Installs Chrome
+    - wget -q -O — https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - 
+    - echo ‘deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main’ | tee /etc/apt/sources.list.d/google-chrome.list
+    - apt-get update
+    - apt-get install google-chrome-stable -y
+    # Runs the tests.
+    - npm run test:karma-headless
