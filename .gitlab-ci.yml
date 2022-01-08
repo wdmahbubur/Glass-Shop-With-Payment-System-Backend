@@ -13,7 +13,7 @@ stages:
   - test
   - deploy
 
-Build My App:
+build-job:
   stage: build
   tags:
    #- you_would_put_your_tag_in_here
