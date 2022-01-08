@@ -9,19 +9,8 @@ before_script:
   - you can keep adding lines and lines.
 
 stages:
-  - build
   - test
-
-Build My App:
-  stage: build
-  tags:
-   #- you_would_put_your_tag_in_here
-   #- node
-  before_script:
-    - yarn config set cache-folder .yarn
-    - yarn install
-  script:
-    - npm run build
+  - build
 
 Test:
   stage: test
@@ -36,4 +25,15 @@ Test:
     - apt-get install google-chrome-stable -y
     # Runs the tests.
     - npm run test:karma-headless
+
+Build My App:
+  stage: build
+  tags:
+   #- you_would_put_your_tag_in_here
+   #- node
+  before_script:
+    - yarn config set cache-folder .yarn
+    - yarn install
+  script:
+    - npm run build
 
