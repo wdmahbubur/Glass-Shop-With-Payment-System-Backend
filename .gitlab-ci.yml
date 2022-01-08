@@ -31,7 +31,7 @@ test-job1:
    - apt-get install
   #  - apt-get install google-chrome-stable -y
    # Runs the tests.
-   - npm run test:karma-headless
+  #  - npm run test:karma-headless
 
 
 Deploy to Staging:
