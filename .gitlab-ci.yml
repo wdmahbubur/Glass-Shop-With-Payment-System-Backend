@@ -1,4 +1,4 @@
-image: node:16.9.1
+image: node:17.3.0
 cache:
   paths:
     - node_modules/
@@ -36,3 +36,4 @@ Test:
     - apt-get install google-chrome-stable -y
     # Runs the tests.
     - npm run test:karma-headless
+
