@@ -1,6 +1,13 @@
 default:
   image: node:17.3.0
 
+stages:
+  - build
+  - test
+  - staging
+  - openMr
+  - production
+
 build-job:
   stage: build
   tags:
