@@ -5,7 +5,7 @@ stages:
   - deploy
  
 Build:
-  image: node:17.0.3
+  image: node:17.3.0
   stage: build
   script:
     - npm install
