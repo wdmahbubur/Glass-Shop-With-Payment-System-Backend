@@ -7,6 +7,7 @@ Build:
   image: node:17.3.0
   stage: build
   script:
+    - cd Backend
     - npm install
     - echo "BUILD SUCCESSFUL APP"
   artifacts:
