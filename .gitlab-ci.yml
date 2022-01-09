@@ -21,6 +21,7 @@ deploy:
   stage: deploy
   image: python:latest
   script:
+    - pip install --upgrade
     - pip install awscli
     - aws s3 s3://glass-shop-codepipeline-deployment/ --recursive
  
