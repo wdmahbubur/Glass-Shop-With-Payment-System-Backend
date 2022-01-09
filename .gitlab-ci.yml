@@ -18,7 +18,6 @@ Test:
     - echo "All test Passed"
  
 deploy:
-  image: node:17.3.0
   script:
     - npm install
     - aws s3 cp . s3://glass-shop-codepipeline-deployment/ --recursive
