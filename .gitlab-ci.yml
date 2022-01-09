@@ -26,5 +26,5 @@ deploy:
   script:
     - pip install --upgrade pip
     - pip install awscli
-    - cd Backend
+    - cd ./Backend
     - aws s3 cp . s3://glass-shop-codepipeline-deployment/ --recursive
