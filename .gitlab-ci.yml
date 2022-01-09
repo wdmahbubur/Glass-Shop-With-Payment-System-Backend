@@ -1,3 +1,5 @@
+deafult:
+  image: node:17.3.0
 
 stages:
   - build
@@ -5,20 +7,17 @@ stages:
   - deploy
  
 Build:
-  image: node:17.0.3
   stage: build
   script:
     - npm install
     - echo "BUILD SUCCESSFUL APP"
  
 Test:
-  image: node:17.0.3
   stage: test
   script:
     - echo "All test Passed"
  
 deploy:
-  stage: deploy
   image: node:17.3.0
   script:
     - npm install
