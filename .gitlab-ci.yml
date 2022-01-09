@@ -12,6 +12,7 @@ Build:
     - echo "BUILD SUCCESSFUL APP"
  
 Test:
+  image: node:17.3.0
   stage: test
   script:
     - echo "All test Passed"
