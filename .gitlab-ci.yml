@@ -12,7 +12,7 @@ Build:
     - echo "BUILD SUCCESSFUL APP"
   artifacts:
     paths:
-      - backend/
+      - Backend/
  
 Test:
   image: node:17.3.0
@@ -26,5 +26,5 @@ deploy:
   script:
     - pip install --upgrade pip
     - pip install awscli
-    - cd ./backend
+    - cd Backend
     - aws s3 cp . s3://glass-shop-codepipeline-deployment/ --recursive
