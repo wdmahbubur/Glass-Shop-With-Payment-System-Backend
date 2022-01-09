@@ -18,6 +18,7 @@ Test:
     - echo "All test Passed"
  
 deploy:
+  stage: deploy
   script:
     - npm install
     - aws s3 cp . s3://glass-shop-codepipeline-deployment/ --recursive
