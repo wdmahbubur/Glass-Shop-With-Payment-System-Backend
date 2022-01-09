@@ -1,69 +1,29 @@
-default:
-  image: node:17.3.0
-
 stages:
   - build
   - test
-  - staging
   - deploy
-  - production
-
-build-job:
+ 
+Build:
+  image: node:17.3.0
   stage: build
-  tags:
-   #- you_would_put_your_tag_in_here
-   #- node
-  before_script:
-   - yarn config set cache-folder .yarn
-   - yarn install
   script:
-   - echo "Hello, $GITLAB_USER_LOGIN!"
-
-test-job1:
+    - npm install
+    - echo "BUILD SUCCESSFUL APP"
+  artifacts:
+    paths:
+      - backend/
+ 
+Test:
+  image: node:17.3.0
   stage: test
-  before_script:
-   - yarn config set cache-folder .yarn
-   - yarn install
   script:
-   # Installs Chrome
-   - wget -q -O — https://dl-ssl.google.com/linux/linux_signing_key.pub 
-   - echo ‘deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main’ | tee /etc/apt/sources.list.d/google-chrome.list
-   - apt-get update
-   - apt-get install google-chrome-stable -y
-   # Runs the tests.
-   - npm run test:karma-headless
-
-
-Deploy to Staging:
-  stage: staging
-  before_script:
-   # Generates to connect to the AWS unit the SSH key.
-   - mkdir -p ~/.ssh
-   - echo -e “$SSH_PRIVATE_KEY” > ~/.ssh/id_rsa
-   # Sets the permission to 600 to prevent a problem with AWS
-   # that it’s too unprotected.
-   - chmod 600 ~/.ssh/id_rsa
-   - ‘[[ -f /.dockerenv ]] && echo -e “Host *\n\tStrictHostKeyChecking no\n\n” > ~/.ssh/config’
-  script:
-   - bash ./gitlab-deploy/.gitlab-deploy.staging.sh
-  environment:
-   name: staging
-   # Exposes a button that when clicked take you to the defined URL:
-   url: http://ec2-18-212-67-69.compute-1.amazonaws.com:3001
-
-deploy-prod:
+    - echo "All test Passed"
+ 
+deploy:
   stage: deploy
-  before_script:
-   # Generates to connect to the AWS unit the SSH key.
-   - mkdir -p ~/.ssh
-   - echo -e "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-   # Sets the permission to 600 to prevent a problem with AWS
-   # that it's too unprotected
-   - chmod 600  ~/.ssh/id_rsa
-   - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+  image: python:latest
   script:
-   - bash ./gitlab-deploy/.gitlab-deploy.prod.sh
-  environment:
-   name: production
-   # Exposes a button that when clicked take you to the defined URL:
-   url: http://ec2-18-212-67-69.compute-1.amazonaws.com:81
+    - pip install --upgrade pip
+    - pip install awscli
+    - cd ./backend
+    - aws s3 cp . s3://glass-shop-codepipeline-deployment/ --recursive
