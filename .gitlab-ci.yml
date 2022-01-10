@@ -17,6 +17,10 @@ create_eb_version:
   image: python:latest
   allow_failure: false
   script: |
+    sudo apt remove python-pip
+    sudo apt remove python3-pip
+    sudo apt install python-pip
+    sudo apt install python3-pip
     pip install awscli #Install awscli tools
     npm install
     
