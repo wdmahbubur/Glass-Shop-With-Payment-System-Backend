@@ -24,7 +24,7 @@ create_eb_version:
     python zip.py ${APP_NAME}
 
     echo "Creating AWS Version Label"
-    AWS_VERSION_LABEL=${APP_NAME}-${APP_VERSION}
+    AWS_VERSION_LABEL=${APP_NAME}-${APP_VERSION}-${CI_PIPELINE_ID}
     S3_KEY="$AWS_VERSION_LABEL.zip"
 
     echo "Uploading to S3"
