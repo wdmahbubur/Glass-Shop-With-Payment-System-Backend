@@ -32,4 +32,4 @@ deploy:
     - aws configure set region us-east-1
   script:
     - cd ./Backend
-    - aws s3 cp . s3://glass-shop-codepipeline-deployment/ --endpoint-url https://glass-shop-codepipeline-deployment.s3.amazonaws.com/
+    - aws s3 cp . s3://glass-shop-codepipeline-deployment/ --recursive --endpoint-url https://glass-shop-codepipeline-deployment.s3.amazonaws.com/
