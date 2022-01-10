@@ -1,36 +1,56 @@
 stages:
   - build
-  - test
-  - deploy
- 
-Build:
-  image: node:17.3.0
+  - run
+
+variables:
+  APP_NAME: "glass-shop-backend"
+  APP_VERSION: "1.0.0"
+  S3_BUCKET: "glass-shop-backend-bucket"
+  AWS_ID: ${MY_AWS_ID}
+  AWS_ACCESS_KEY_ID: AKIAVIRXQ624H7MAUN6T
+  AWS_SECRET_ACCESS_KEY: 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
+  AWS_REGION: us-east-1
+  AWS_PLATFORM: Docker
+      
+create_eb_version:
   stage: build
-  script:
-    - cd Backend
-    - npm install
-    - echo "BUILD SUCCESSFUL APP"
-  artifacts:
-    paths:
-      - Backend/
- 
-Test:
-  image: node:17.3.0
-  stage: test
-  script:
-    - echo "All test Passed"
- 
-deploy:
-  stage: deploy
   image: python:latest
-  before_script:
-    - apt-get update && apt-get install
-    - pip install --upgrade pip
-    - pip install awscli
-    - aws configure set aws_access_key_id AKIAVIRXQ624H7MAUN6T
-    - aws configure set aws_secret_access_key 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
-    - aws configure set region us-east-1
-  script:
-    - $G build -x test -x distTar # # Build the project with Gradle
-    - $G distZip  # creates distribution zip for deployment
-    - aws s3 cp $BUNDLE_SRC s3://glass-shop-codepipeline-deployment/ --recursive --endpoint-url https://glass-shop-codepipeline-deployment.s3.amazonaws.com/
+  allow_failure: false
+  script: |
+    pip install awscli #Install awscli tools
+    
+    echo "Creating zip file"
+    python zip.py ${APP_NAME}
+
+    echo "Creating AWS Version Label"
+    AWS_VERSION_LABEL=${APP_NAME}-${APP_VERSION}-${CI_PIPELINE_ID}
+    S3_KEY="$AWS_VERSION_LABEL.zip"
+
+    echo "Uploading to S3"
+    aws s3 cp ${APP_NAME}.zip s3://${S3_BUCKET}/${S3_KEY} --region ${AWS_REGION}
+
+    echo "Creating new app version"
+    aws elasticbeanstalk create-application-version \
+      --application-name ${APP_NAME} \
+      --version-label $AWS_VERSION_LABEL \
+      --region ${AWS_REGION} \
+      --source-bundle S3Bucket=${S3_BUCKET},S3Key=${S3_KEY} \
+      --description "${CI_COMMIT_DESCRIPTION}" \
+      --auto-create-application \
+  only:
+    refs:
+      - master
+
+deploy_aws_eb:
+  stage: run
+  image: coxauto/aws-ebcli
+  when: manual
+  script: |
+    AWS_VERSION_LABEL=${APP_NAME}-${APP_VERSION}-${CI_PIPELINE_ID}
+
+    echo "Deploying app"
+    eb init -i ${APP_NAME} -p ${AWS_PLATFORM} -k ${AWS_ID} --region ${AWS_REGION}
+    eb deploy ${APP_NAME} --version ${AWS_VERSION_LABEL}
+  only:
+    refs:
+      - master
