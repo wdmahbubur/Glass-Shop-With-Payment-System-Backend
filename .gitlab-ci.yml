@@ -52,7 +52,7 @@ deploy:
   script: |
     python -m pip install "pip==21.3.1"
     pip install awscli #Install awscli tools
-    
+
     AWS_VERSION_LABEL=${APP_NAME}-${APP_VERSION}-${CI_PIPELINE_ID}
 
     echo "Deploying app"
@@ -60,6 +60,7 @@ deploy:
     aws elasticbeanstalk update-environment \
       --application-name ${APP_NAME} \
       --environment-name ${APP_ENV} \
+      --region ${AWS_REGION} \
       --version-label ${AWS_VERSION_LABEL} \
   only:
     refs:
