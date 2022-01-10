@@ -16,9 +16,7 @@ const productsRoutes = require('./routes/productsRoutes');
 const ordersRoutes = require('./routes/ordersRoutes');
 
 mongoose
-    .connect(
-        process.env.NODE_ENV === "production" ? db.mongoURI : db.mongoURIDev
-    )
+    .connect(db.mongoURI)
     .then(() => console.log("Mongodb Connected"))
     .catch((err) => console.log(err));
 
