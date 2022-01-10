@@ -30,14 +30,7 @@ create_eb_version:
     echo "Uploading to S3"
     aws s3 cp ${APP_NAME}.zip s3://${S3_BUCKET}/${S3_KEY} --region ${AWS_REGION}
 
-    echo "Creating new app version"
-    aws elasticbeanstalk create-application-version \
-      --application-name ${APP_NAME} \
-      --version-label $AWS_VERSION_LABEL \
-      --region ${AWS_REGION} \
-      --source-bundle S3Bucket=${S3_BUCKET},S3Key=${S3_KEY} \
-      --description "${CI_COMMIT_DESCRIPTION}" \
-      --auto-create-application \
+    echo "Upload Success"
   only:
     refs:
       - main
