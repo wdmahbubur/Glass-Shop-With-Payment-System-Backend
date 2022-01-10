@@ -23,14 +23,13 @@ Test:
 deploy:
   stage: deploy
   image: python:latest
-  before_script:
+  before-script:
     - apt-get update && apt-get install
     - pip install --upgrade pip
     - pip install awscli
-    - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
-    - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
-    - aws configure set region $AWS_DEFAULT_REGION
-
+    - aws configure set aws_access_key_id AKIAVIRXQ624H7MAUN6T
+    - aws configure set aws_secret_access_key 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
+    - aws configure set region us-east-1
   script:
     - cd ./Backend
     - aws s3 cp . s3://glass-shop-codepipeline-deployment/ --recursive
