@@ -44,7 +44,7 @@ exports.saveOrder = async (req, res) => {
 exports.getOrders = async (req, res) => {
     try {
         const query = req.query;
-        const orders = await Orders.find(query).sort({ createdAt: -1 }).limit(parseInt(query.limit));
+        const orders = await Orders.find(query).sort({ createdAt: -1 }).limit(parseInt(query.limit || 0));
         res.json(orders);
     }
     catch (e) {
