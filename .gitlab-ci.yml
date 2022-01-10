@@ -12,7 +12,7 @@ variables:
   AWS_REGION: us-east-1
   AWS_PLATFORM: Docker
       
-create_eb_version:
+build:
   stage: build
   image: python:latest
   allow_failure: false
@@ -45,10 +45,9 @@ create_eb_version:
     refs:
       - main
 
-deploy_aws_eb:
+deploy:
   stage: run
   image: coxauto/aws-ebcli
-  when: manual
   script: |
     AWS_VERSION_LABEL=${APP_NAME}-${APP_VERSION}-${CI_PIPELINE_ID}
 
