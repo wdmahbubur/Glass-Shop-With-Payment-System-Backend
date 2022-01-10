@@ -17,7 +17,6 @@ create_eb_version:
   image: python:latest
   allow_failure: false
   script: |
-    python -m pip uninstall pip
     python -m pip install "pip==21.3.1" --force-reinstall
     pip install awscli #Install awscli tools
     npm install
