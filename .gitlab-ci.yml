@@ -31,5 +31,6 @@ deploy:
     - aws configure set aws_secret_access_key 8pqx57U59+PFCKqkRc01FGnGw8/0NLNP0bGmudSL
     - aws configure set region us-east-1
   script:
-    - cd ./Backend
-    - aws s3 cp . s3://glass-shop-codepipeline-deployment/ --recursive --endpoint-url https://glass-shop-codepipeline-deployment.s3.amazonaws.com/
+    - $G build -x test -x distTar # # Build the project with Gradle
+    - $G distZip  # creates distribution zip for deployment
+    - aws s3 cp $BUNDLE_SRC s3://glass-shop-codepipeline-deployment/ --recursive --endpoint-url https://glass-shop-codepipeline-deployment.s3.amazonaws.com/
