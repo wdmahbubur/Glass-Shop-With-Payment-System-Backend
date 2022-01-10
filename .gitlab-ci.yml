@@ -10,7 +10,7 @@ variables:
   AWS_ACCESS_KEY_ID: AKIAVIRXQ624H7MAUN6T
   AWS_SECRET_ACCESS_KEY: 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
   AWS_REGION: us-east-1
-  AWS_PLATFORM: Docker
+  AWS_PLATFORM: Node
       
 build:
   stage: build
