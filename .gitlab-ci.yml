@@ -4,6 +4,7 @@ stages:
 
 variables:
   APP_NAME: "glass-shop-backend"
+  APP_ENV: "Glassshopbackend-env"
   APP_VERSION: "1.0.0"
   S3_BUCKET: "glass-shop-backend-bucket"
   AWS_ID: ${MY_AWS_ID}
@@ -47,13 +48,19 @@ build:
 
 deploy:
   stage: run
-  image: coxauto/aws-ebcli
+  image: python:latest
   script: |
+    python -m pip install "pip==21.3.1"
+    pip install awscli #Install awscli tools
+    
     AWS_VERSION_LABEL=${APP_NAME}-${APP_VERSION}-${CI_PIPELINE_ID}
 
     echo "Deploying app"
-    eb init -i ${APP_NAME} -p ${AWS_PLATFORM} -k ${AWS_ID} --region ${AWS_REGION}
-    eb deploy ${APP_NAME} --version ${AWS_VERSION_LABEL}
+
+    aws elasticbeanstalk update-environment \
+      --application-name ${APP_NAME} \
+      --environment-name ${APP_ENV} \
+      --version-label ${AWS_VERSION_LABEL} \
   only:
     refs:
       - main
