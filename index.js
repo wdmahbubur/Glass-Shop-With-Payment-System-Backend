@@ -28,7 +28,9 @@ app.use("/api", usersRoutes);
 app.use("/api", productsRoutes);
 app.use("/api", ordersRoutes);
 
-
+app.et("/api", (req, res) => {
+    res.send("Server Running...");
+})
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
