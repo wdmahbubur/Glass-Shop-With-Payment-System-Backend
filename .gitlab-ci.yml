@@ -17,8 +17,9 @@ create_eb_version:
   image: python:latest
   allow_failure: false
   script: |
-    /usr/local/bin/python -m pip install --upgrade pip
+    pip install --upgrade pip
     pip install awscli #Install awscli tools
+    npm install
     
     echo "Creating zip file"
     python zip.py ${APP_NAME}
