@@ -23,7 +23,7 @@ Test:
 deploy:
   stage: deploy
   image: python:latest
-  before-script:
+  before_script:
     - apt-get update && apt-get install
     - pip install --upgrade pip
     - pip install awscli
@@ -32,4 +32,4 @@ deploy:
     - aws configure set region us-east-1
   script:
     - cd ./Backend
-    - aws s3 cp . s3://glass-shop-codepipeline-deployment/ --recursive
+    - aws s3 cp . s3://glass-shop-codepipeline-deployment/ --endpoint-url https://glass-shop-codepipeline-deployment.s3.amazonaws.com/
