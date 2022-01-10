@@ -23,7 +23,7 @@ Test:
 deploy:
   stage: deploy
   image: python:latest
-  before-script:
+  before_script:
     - apt-get update && apt-get install
     - pip install --upgrade pip
     - pip install awscli
