@@ -28,7 +28,7 @@ app.use("/api", usersRoutes);
 app.use("/api", productsRoutes);
 app.use("/api", ordersRoutes);
 
-app.et("/api", (req, res) => {
+app.get("/api", (req, res) => {
     res.send("Server Running...");
 })
 
